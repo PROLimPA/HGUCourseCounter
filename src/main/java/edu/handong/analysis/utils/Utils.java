@@ -23,6 +23,7 @@ public class Utils{
 			bReader.close();
 		}
 		catch(IOException e) {
+			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.out.println(e.getMessage());
 			System.exit(0);
 		}
@@ -35,7 +36,14 @@ public class Utils{
 	
 	public static void writeAFile(ArrayList<String> lines, String targetFileName) {
 		try {
-			DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File(targetFileName)));
+
+			File fileName = new File(targetFileName);
+			if(!fileName.exists()) {
+			fileName.getParentFile().mkdirs();
+			fileName.createNewFile();
+			}
+			
+			DataOutputStream dos = new DataOutputStream(new FileOutputStream(fileName));
 			
 			for(String line: lines) {
 				dos.write((line + "\n").getBytes());

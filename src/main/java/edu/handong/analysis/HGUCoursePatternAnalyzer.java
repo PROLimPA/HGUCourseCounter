@@ -38,7 +38,7 @@ public class HGUCoursePatternAnalyzer {
 		
 		// To sort HashMap entries by key values so that we can save the results by student ids in ascending order.
 		Map<String, Student> sortedStudents = new TreeMap<String,Student>(students); 
-		
+
 		// Generate result lines to be saved.
 		ArrayList<String> linesToBeSaved = countNumberOfCoursesTakenInEachSemester(sortedStudents);
 		
@@ -62,12 +62,16 @@ public class HGUCoursePatternAnalyzer {
 			Student newStudent = new Student(studentId);
 			newStudent.addCourse(newCourse);
 			
-			studentCourseRecords.put(studentId, newStudent);
+			if(studentCourseRecords.containsValue(newStudent)) {
+				continue;
+			} else {
+				studentCourseRecords.put(studentId, newStudent);
+			}
 		}
-		
+	
 		return studentCourseRecords;
 	}
-
+	
 	/**
 	 * This method generate the number of courses taken by a student in each semester. The result file look like this:
 	 * StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester
@@ -84,8 +88,23 @@ public class HGUCoursePatternAnalyzer {
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		ArrayList<String> NumberOfCoursesTakenInEachSemester = new ArrayList<String>();
 		
+		String studentId = "studentID";
+		String totalNumberOfSemestersRegistered = "TotalNumberOfSemestersRegistered";
+		String semester = "Semester";
+		String numCoursesTakenInTheSemester = "NumCoursesTakenInTheSemester";
+		NumberOfCoursesTakenInEachSemester.add(studentId + "," + totalNumberOfSemestersRegistered + "," +
+				semester + "," + numCoursesTakenInTheSemester);
 		
-		
+		for(String keyString : sortedStudents.keySet()) {
+			Student studentInfo = sortedStudents.get(keyString);	// <- Object Student which has ArrayList<Course> courseTaken!!
+			
+			studentId = keyString;
+			//numCoursesTakenInTheSemester = Integer.toString(studentInfo.getNumCourseInNthSemester(0));
+			
+			
+			NumberOfCoursesTakenInEachSemester.add(studentId + "," );
+			
+		}
 		
 		return NumberOfCoursesTakenInEachSemester; // do not forget to return a proper variable.
 	}

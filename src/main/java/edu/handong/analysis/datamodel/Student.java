@@ -28,18 +28,25 @@ public class Student{
 		
 		int i = 0;
 		int nthSemester = 1;
-		while(i < courseTaken.size()) {
+		while(i < courseTaken.size()-1) {
 			Course firstCourse = courseTaken.get(i);
 			Course secondCourse = courseTaken.get(i+1);
 			
-			if(firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken() || firstCourse.getYearTaken() != secondCourse.getYearTaken()
-					 || (i+1) == courseTaken.size()) {
+			if(firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken() || firstCourse.getYearTaken() != secondCourse.getYearTaken()) {
 				String yearTaken = Integer.toString(firstCourse.getYearTaken());
 				String semesterCourseTaken = Integer.toString(firstCourse.getSemesterCourseTaken());
 				String yearAndSemesterOfSemesters = yearTaken + "-" + semesterCourseTaken;
 				keyAndValue.put(yearAndSemesterOfSemesters, nthSemester);
 				nthSemester++;
 			}
+			if((i+1) == courseTaken.size()-1 && (firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken()
+					|| firstCourse.getYearTaken() != secondCourse.getYearTaken())) {
+				String yearTaken = Integer.toString(secondCourse.getYearTaken());
+				String semesterCourseTaken = Integer.toString(secondCourse.getSemesterCourseTaken());
+				String yearAndSemesterOfSemesters = yearTaken + "-" + semesterCourseTaken;
+				keyAndValue.put(yearAndSemesterOfSemesters, nthSemester);
+			}
+				
 			i++;
 		}
 		
@@ -60,7 +67,7 @@ public class Student{
 			}
 		}
 		
-		for(int i = 0; i <= courseTaken.size(); i++) {
+		for(int i = 0; i < courseTaken.size(); i++) {
 			Course reservedCourse = courseTaken.get(i);
 			if(yearTaken == reservedCourse.getYearTaken() && semesterTaken == reservedCourse.getSemesterCourseTaken()) {
 				numCourseInNthSemster++;

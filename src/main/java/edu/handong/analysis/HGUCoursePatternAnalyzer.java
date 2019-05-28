@@ -98,7 +98,7 @@ public class HGUCoursePatternAnalyzer {
 			studentId = keyString;
 			Student studentInfo = sortedStudents.get(keyString);
 			ArrayList<Course> courseInfo = studentInfo.getCourse();
-			int iterationTimes = 1;
+			int iterationTimes = 0;
 			int numSemester = 1;
 			
 			for(Course reserved : courseInfo) {
@@ -111,7 +111,7 @@ public class HGUCoursePatternAnalyzer {
 						"," + semester + "," + numCoursesTakenInTheSemester);
 				
 				numSemester++;
-				iterationTimes = 1;
+				iterationTimes = 0;
 				}
 				iterationTimes++;
 			}

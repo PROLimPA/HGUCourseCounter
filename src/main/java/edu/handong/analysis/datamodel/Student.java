@@ -39,8 +39,7 @@ public class Student{
 				keyAndValue.put(yearAndSemesterOfSemesters, nthSemester);
 				nthSemester++;
 			}
-			if((i+1) == courseTaken.size()-1 && (firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken()
-					|| firstCourse.getYearTaken() != secondCourse.getYearTaken())) {
+			if((i+1) == courseTaken.size()-1) {
 				String yearTaken = Integer.toString(secondCourse.getYearTaken());
 				String semesterCourseTaken = Integer.toString(secondCourse.getSemesterCourseTaken());
 				String yearAndSemesterOfSemesters = yearTaken + "-" + semesterCourseTaken;

@@ -97,11 +97,10 @@ public class HGUCoursePatternAnalyzer {
 		for(String keyString : sortedStudents.keySet()) {
 			studentId = keyString;
 			Student studentInfo = sortedStudents.get(keyString);
-			ArrayList<Course> courseInfo = studentInfo.getCourse();
-			int iterationTimes = 0;
+			int iterationTimes = 1;
 			int numSemester = 1;
 			
-			for(Course reserved : courseInfo) {
+			for(Course reserved : studentInfo.getCourse()) {
 				if(iterationTimes == studentInfo.getNumCourseInNthSemester(numSemester)) {
 				totalNumberOfSemestersRegistered = Integer.toString(studentInfo.getTotalNumberOfSemestersRegistered());
 				semester = Integer.toString(numSemester);

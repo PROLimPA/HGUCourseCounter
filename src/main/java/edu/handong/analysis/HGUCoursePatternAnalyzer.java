@@ -59,12 +59,11 @@ public class HGUCoursePatternAnalyzer {
 			Course newCourse = new Course(line);
 			String studentId = newCourse.getStudentId();
 			
-			Student newStudent = new Student(studentId);
-			newStudent.addCourse(newCourse);
-			
-			if(studentCourseRecords.containsValue(newStudent)) {
-				continue;
+			if(studentCourseRecords.containsKey(studentId)) {
+				studentCourseRecords.get(studentId).addCourse(newCourse);
 			} else {
+				Student newStudent = new Student(studentId);
+				newStudent.addCourse(newCourse);
 				studentCourseRecords.put(studentId, newStudent);
 			}
 		}
@@ -96,16 +95,29 @@ public class HGUCoursePatternAnalyzer {
 				semester + "," + numCoursesTakenInTheSemester);
 		
 		for(String keyString : sortedStudents.keySet()) {
-			Student studentInfo = sortedStudents.get(keyString);	// <- Object Student which has ArrayList<Course> courseTaken!!
-			
 			studentId = keyString;
-			//numCoursesTakenInTheSemester = Integer.toString(studentInfo.getNumCourseInNthSemester(0));
+			Student studentInfo = sortedStudents.get(keyString);
+			ArrayList<Course> courseInfo = studentInfo.getCourse();
+			int iterationTimes = 1;
+			int numSemester = 1;
 			
-			
-			NumberOfCoursesTakenInEachSemester.add(studentId + "," );
+			for(Course reserved : courseInfo) {
+				if(iterationTimes == studentInfo.getNumCourseInNthSemester(numSemester)) {
+				totalNumberOfSemestersRegistered = Integer.toString(studentInfo.getTotalNumberOfSemestersRegistered());
+				semester = Integer.toString(numSemester);
+				numCoursesTakenInTheSemester = Integer.toString(studentInfo.getNumCourseInNthSemester(numSemester));
+				
+				NumberOfCoursesTakenInEachSemester.add(studentId + "," + totalNumberOfSemestersRegistered +
+						"," + semester + "," + numCoursesTakenInTheSemester);
+				
+				numSemester++;
+				iterationTimes = 1;
+				}
+				iterationTimes++;
+			}
 			
 		}
 		
-		return NumberOfCoursesTakenInEachSemester; // do not forget to return a proper variable.
+		return NumberOfCoursesTakenInEachSemester;
 	}
 }

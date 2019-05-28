@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 public class Student{
 	private String studentId;
-	private ArrayList<Course> courseTaken;
+	private ArrayList<Course> courseTaken = new ArrayList<Course>();
 	private HashMap<String, Integer> semestersByYearAndSemester;
 	//key: Year-Semester	e.g., 2003-1
 	
@@ -16,8 +16,11 @@ public class Student{
 	}
 	
 	public void addCourse(Course newRecord) {
-		courseTaken = new ArrayList<Course>();
 		courseTaken.add(newRecord);
+	}
+	
+	public ArrayList<Course> getCourse(){
+		return courseTaken;
 	}
 	
 	public HashMap<String, Integer> getSemestersByYearAndSemester(){
@@ -25,11 +28,12 @@ public class Student{
 		
 		int i = 0;
 		int nthSemester = 1;
-		while(i <= courseTaken.size()) {
+		while(i < courseTaken.size()) {
 			Course firstCourse = courseTaken.get(i);
 			Course secondCourse = courseTaken.get(i+1);
 			
-			if(firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken() || (i+1) == courseTaken.size()) {
+			if(firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken() || firstCourse.getYearTaken() != secondCourse.getYearTaken()
+					 || (i+1) == courseTaken.size()) {
 				String yearTaken = Integer.toString(firstCourse.getYearTaken());
 				String semesterCourseTaken = Integer.toString(firstCourse.getSemesterCourseTaken());
 				String yearAndSemesterOfSemesters = yearTaken + "-" + semesterCourseTaken;
@@ -44,20 +48,33 @@ public class Student{
 	
 	public int getNumCourseInNthSemester(int semester) {
 		semestersByYearAndSemester = getSemestersByYearAndSemester();
+		int yearTaken = 0;
+		int semesterTaken = 0;
+		int numCourseInNthSemster = 0;
 		
-		int numCourseInNthSemester = 0;
-		
-		for(String takenInfo : semestersByYearAndSemester.keySet()) {
-			String yearTaken = takenInfo.split("-")[0];
-			String semesterTaken = takenInfo.split("-")[1];
-			
-			String courseYearTaken = Integer.toString(courseTaken.get(0).getYearTaken());
-			String courseSemesterTaken = Integer.toString(courseTaken.get(0).getSemesterCourseTaken());
-			if(courseYearTaken == yearTaken && courseSemesterTaken==semesterTaken)
+		for(String nthSemester : semestersByYearAndSemester.keySet()) {
+			if(semestersByYearAndSemester.get(nthSemester) == semester) {
+				yearTaken = Integer.parseInt(nthSemester.split("-")[0]);
+				semesterTaken = Integer.parseInt(nthSemester.split("-")[1]);
+				break;
+			}
 		}
 		
+		for(int i = 0; i <= courseTaken.size(); i++) {
+			Course reservedCourse = courseTaken.get(i);
+			if(yearTaken == reservedCourse.getYearTaken() && semesterTaken == reservedCourse.getSemesterCourseTaken()) {
+				numCourseInNthSemster++;
+			}
+		}
 		
+		return numCourseInNthSemster;
+	}
+	
+	public int getTotalNumberOfSemestersRegistered() {
+		semestersByYearAndSemester = getSemestersByYearAndSemester();
+		int totalNumberOfSemestersRegistered = 0;
+		for(String nthSemester : semestersByYearAndSemester.keySet()) totalNumberOfSemestersRegistered++;
 		
-		return 0;
+		return totalNumberOfSemestersRegistered;
 	}
 }

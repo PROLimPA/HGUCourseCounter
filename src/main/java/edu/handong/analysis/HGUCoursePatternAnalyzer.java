@@ -147,8 +147,6 @@ public class HGUCoursePatternAnalyzer {
 				semester = Integer.toString(studentInfo.getSemestersByYearAndSemester().get(string));
 				
 				if(yearTaken >= Integer.parseInt(startYear) && yearTaken <= Integer.parseInt(endYear)) {
-					System.out.println(studentId +" "+ string +" "+ semester);
-					
 					int numCoursesTaken = 0;
 					for(Course course : studentInfo.getCourse()) {
 						if(course.getYearTaken() == yearTaken && course.getSemesterCourseTaken() == semesterTaken) numCoursesTaken++;

@@ -137,28 +137,29 @@ public class HGUCoursePatternAnalyzer {
 				semester + "," + numCoursesTakenInTheSemester);
 		
 		for(String keyString : sortedStudents.keySet()) {
-			studentId = keyString;
 			Student studentInfo = sortedStudents.get(keyString);
-			int iterationTimes = 1;
-			int numSemester = 1;
+			studentId = keyString;
+			totalNumberOfSemestersRegistered = Integer.toString(studentInfo.getTotalNumberOfSemestersRegistered());
 			
-			for(Course reserved : studentInfo.getCourse()) {
-					if(iterationTimes == studentInfo.getNumCourseInNthSemester(numSemester)) {
-					totalNumberOfSemestersRegistered = Integer.toString(studentInfo.getTotalNumberOfSemestersRegistered());
-					semester = Integer.toString(numSemester);
-					numCoursesTakenInTheSemester = Integer.toString(studentInfo.getNumCourseInNthSemester(numSemester));
+			for(String string : studentInfo.getSemestersByYearAndSemester().keySet()) {
+				Integer yearTaken = Integer.parseInt(string.split("-")[0]);
+				Integer semesterTaken = Integer.parseInt(string.split("-")[1]);
+				semester = Integer.toString(studentInfo.getSemestersByYearAndSemester().get(string));
 				
-					NumberOfCoursesTakenInEachSemester.add(studentId + "," + totalNumberOfSemestersRegistered +
-							"," + semester + "," + numCoursesTakenInTheSemester);
-				
-					numSemester++;
-					iterationTimes = 0;
+				if(yearTaken >= Integer.parseInt(startYear) && yearTaken <= Integer.parseInt(endYear)) {
+					System.out.println(studentId +" "+ string +" "+ semester);
+					
+					int numCoursesTaken = 0;
+					for(Course course : studentInfo.getCourse()) {
+						if(course.getYearTaken() == yearTaken && course.getSemesterCourseTaken() == semesterTaken) numCoursesTaken++;
 					}
-				iterationTimes++;
+					numCoursesTakenInTheSemester = Integer.toString(numCoursesTaken);
+					
+					NumberOfCoursesTakenInEachSemester.add(studentId + "," + totalNumberOfSemestersRegistered + "," +
+							semester + "," + numCoursesTakenInTheSemester);					
+				}
 			}
-			
 		}
-		
 		return NumberOfCoursesTakenInEachSemester;
 	}
 	
@@ -177,8 +178,8 @@ public class HGUCoursePatternAnalyzer {
 		
 		courseCode = this.courseCode;
 		for(String keyString : sortedCourseCode.keySet()) {
-			year = keyString;
 			Student studentInfo = sortedCourseCode.get(keyString);
+			year = keyString;
 			courseName = studentInfo.getCourseName(sortedCourseCode, courseCode);
 			
 			Integer keyYear = Integer.parseInt(keyString);			
@@ -199,7 +200,6 @@ public class HGUCoursePatternAnalyzer {
 			}
 			else continue;
 		}
-		
 		return numberOfStudentsTakenInCouresCode;
 	}
 	

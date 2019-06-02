@@ -27,27 +27,17 @@ public class Student{
 	public HashMap<String, Integer> getSemestersByYearAndSemester(){
 		HashMap<String, Integer> keyAndValue = new HashMap<String, Integer>();
 		
-		int i = 0;
 		int nthSemester = 1;
-		while(i < courseTaken.size()-1) {
-			Course firstCourse = courseTaken.get(i);
-			Course secondCourse = courseTaken.get(i+1);
-			
-			if(firstCourse.getSemesterCourseTaken() != secondCourse.getSemesterCourseTaken() || firstCourse.getYearTaken() != secondCourse.getYearTaken()) {
-				String yearTaken = Integer.toString(firstCourse.getYearTaken());
-				String semesterCourseTaken = Integer.toString(firstCourse.getSemesterCourseTaken());
-				String yearAndSemesterOfSemesters = yearTaken + "-" + semesterCourseTaken;
-				keyAndValue.put(yearAndSemesterOfSemesters, nthSemester);
+		for(int i = 0; i < courseTaken.size(); i++) {
+			Course course = courseTaken.get(i);
+			String yearTaken = Integer.toString(course.getYearTaken());
+			String semesterTaken = Integer.toString(course.getSemesterCourseTaken());
+			String string = yearTaken + "-" + semesterTaken;
+			if(keyAndValue.containsKey(string)) continue;
+			else {
+				keyAndValue.put(string, nthSemester);
 				nthSemester++;
 			}
-			if((i+1) == courseTaken.size()-1) {
-				String yearTaken = Integer.toString(secondCourse.getYearTaken());
-				String semesterCourseTaken = Integer.toString(secondCourse.getSemesterCourseTaken());
-				String yearAndSemesterOfSemesters = yearTaken + "-" + semesterCourseTaken;
-				keyAndValue.put(yearAndSemesterOfSemesters, nthSemester);
-			}
-				
-			i++;
 		}
 		
 		return keyAndValue;
@@ -95,10 +85,7 @@ public class Student{
 			}
 		}
 		return "No such coursecode exist!";
-		
 	}
-	
-	
 	//for "-a 2" TotalNumberOfStudentsInNthSemester
 	public ArrayList<Course> getCoursesInfoInNthSemester(int semester){
 		ArrayList<Course> coursesInfoInNthSemester = new ArrayList<Course>();

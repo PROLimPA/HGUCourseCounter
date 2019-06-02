@@ -38,6 +38,7 @@ public class Utils{
 		try {
 
 			File fileName = new File(targetFileName);
+			
 			if(!fileName.exists()) {
 			fileName.getParentFile().mkdirs();
 			fileName.createNewFile();
@@ -56,5 +57,3 @@ public class Utils{
 	}
 	
 }
-
-//https://github.com/lifove/JCTools/blob/master/src/main/java/net/lifove/research/utils/FileUtil.java

@@ -23,6 +23,7 @@ public class Student{
 		return courseTaken;
 	}
 	
+	//for "-a 1"
 	public HashMap<String, Integer> getSemestersByYearAndSemester(){
 		HashMap<String, Integer> keyAndValue = new HashMap<String, Integer>();
 		
@@ -51,7 +52,7 @@ public class Student{
 		
 		return keyAndValue;
 	}
-	
+	//for "-a 1"
 	public int getNumCourseInNthSemester(int semester) {
 		semestersByYearAndSemester = getSemestersByYearAndSemester();
 		int yearTaken = 0;
@@ -75,12 +76,64 @@ public class Student{
 		
 		return numCourseInNthSemster;
 	}
-	
+	//for "-a 1"
 	public int getTotalNumberOfSemestersRegistered() {
 		semestersByYearAndSemester = getSemestersByYearAndSemester();
 		int totalNumberOfSemestersRegistered = 0;
 		for(String nthSemester : semestersByYearAndSemester.keySet()) totalNumberOfSemestersRegistered++;
 		
 		return totalNumberOfSemestersRegistered;
+	}
+
+	//for "-a 2" CourseName(succeed)
+	public String getCourseName(Map<String, Student> map, String courseCode) {
+		for(String string : map.keySet()) {
+			Student student = map.get(string);
+			for(Course course : student.getCourse()) {
+				if(course.getCourseCode().equals(courseCode)) 
+					return course.getCourseName();
+			}
+		}
+		return "No such coursecode exist!";
+		
+	}
+	
+	
+	//for "-a 2" TotalNumberOfStudentsInNthSemester
+	public ArrayList<Course> getCoursesInfoInNthSemester(int semester){
+		ArrayList<Course> coursesInfoInNthSemester = new ArrayList<Course>();
+		
+		for(int i = 0; i < courseTaken.size(); i++) {
+			int semesterTaken = courseTaken.get(i).getSemesterCourseTaken();
+			if(semesterTaken == semester) coursesInfoInNthSemester.add(courseTaken.get(i));
+		}
+		return coursesInfoInNthSemester;
+	}
+	//for "-a 2" TotalNumberOfStudentsInNthSemester
+	public String getTotalNumberOfStudentsInNthSemester(int semester){
+		ArrayList<Course> listOfStudentInfoInNthSemester = getCoursesInfoInNthSemester(semester);
+		ArrayList<String> listOfStudentId = new ArrayList<String>();
+		int totalNumberOfStudentsRegistered = 0;
+		
+		for(Course course : listOfStudentInfoInNthSemester) {
+			String studentId = course.getStudentId();
+			if(listOfStudentId.contains(studentId)) continue;
+			else {
+				listOfStudentId.add(studentId);
+				totalNumberOfStudentsRegistered++;
+			}
+		}
+		return Integer.toString(totalNumberOfStudentsRegistered);
+	}
+	//for "-a 2" StudentsTakenCourseCode
+	public String getStudentsTakenCourseCode(String courseCode, int semester) {
+		ArrayList<Course> listOfStudentInfoInNthSemester = getCoursesInfoInNthSemester(semester);
+		int studentsTakenCourseCode = 0;
+		
+		for(Course course : listOfStudentInfoInNthSemester) {
+			if(course.getCourseCode().equals(courseCode)) studentsTakenCourseCode++;
+		}
+		
+		return Integer.toString(studentsTakenCourseCode);
 	}
 }

@@ -29,6 +29,14 @@ public class Course{
 		return studentId;
 	}
 	
+	public String getCourseCode() {
+		return courseCode;
+	}
+	
+	public String getCourseName() {
+		return courseName;
+	}
+	
 	public int getYearTaken() {
 		return yearTaken;
 	}

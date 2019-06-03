@@ -28,11 +28,6 @@ public class HGUCoursePatternAnalyzer {
 	String endYear;
 	boolean help;
 	
-	/**
-	 * This method runs our analysis logic to save the number courses taken by each student per semester in a result file.
-	 * Run method must not be changed!!
-	 * @param args
-	 */
 	public void run(String[] args) {
 		
 		try {
@@ -69,12 +64,6 @@ public class HGUCoursePatternAnalyzer {
 		}
 	}
 	
-	/**
-	 * This method create HashMap<String,Student> from the data csv file. Key is a student id and the corresponding object is an instance of Student.
-	 * The Student instance have all the Course instances taken by the student.
-	 * @param lines
-	 * @return
-	 */
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		HashMap<String, Student> studentCourseRecords = new HashMap<String, Student>(); 
 		
@@ -113,19 +102,6 @@ public class HGUCoursePatternAnalyzer {
 		return courseYearTakenRecords;
 	}
 	
-	/**
-	 * This method generate the number of courses taken by a student in each semester. The result file look like this:
-	 * StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester
-	 * 0001,14,1,9
-     * 0001,14,2,8
-	 * ....
-	 * 
-	 * 0001,14,1,9 => this means, 0001 student registered 14 semesters in total. In the first semester (1), the student took 9 courses.
-	 * 
-	 * 
-	 * @param sortedStudents
-	 * @return
-	 */
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		ArrayList<String> NumberOfCoursesTakenInEachSemester = new ArrayList<String>();
 		
@@ -145,7 +121,7 @@ public class HGUCoursePatternAnalyzer {
 				Integer yearTaken = Integer.parseInt(string.split("-")[0]);
 				Integer semesterTaken = Integer.parseInt(string.split("-")[1]);
 				semester = Integer.toString(studentInfo.getSemestersByYearAndSemester().get(string));
-				
+
 				if(yearTaken >= Integer.parseInt(startYear) && yearTaken <= Integer.parseInt(endYear)) {
 					int numCoursesTaken = 0;
 					for(Course course : studentInfo.getCourse()) {

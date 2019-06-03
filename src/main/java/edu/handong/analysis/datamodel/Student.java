@@ -8,7 +8,7 @@ import java.util.TreeMap;
 public class Student{
 	private String studentId;
 	private ArrayList<Course> courseTaken = new ArrayList<Course>();
-	private HashMap<String, Integer> semestersByYearAndSemester;
+	private Map<String, Integer> semestersByYearAndSemester;
 	//key: Year-Semester	e.g., 2003-1
 	
 	public Student(String studentId) {
@@ -24,8 +24,8 @@ public class Student{
 	}
 	
 	//for "-a 1"
-	public HashMap<String, Integer> getSemestersByYearAndSemester(){
-		HashMap<String, Integer> keyAndValue = new HashMap<String, Integer>();
+	public Map<String, Integer> getSemestersByYearAndSemester(){
+		HashMap<String, Integer> prev = new HashMap<String, Integer>();
 		
 		int nthSemester = 1;
 		for(int i = 0; i < courseTaken.size(); i++) {
@@ -33,14 +33,15 @@ public class Student{
 			String yearTaken = Integer.toString(course.getYearTaken());
 			String semesterTaken = Integer.toString(course.getSemesterCourseTaken());
 			String string = yearTaken + "-" + semesterTaken;
-			if(keyAndValue.containsKey(string)) continue;
+			if(prev.containsKey(string)) continue;
 			else {
-				keyAndValue.put(string, nthSemester);
+				prev.put(string, nthSemester);
 				nthSemester++;
 			}
-		}
+		}		
+		Map<String, Integer> map = new TreeMap<String, Integer>(prev);
 		
-		return keyAndValue;
+		return map ;
 	}
 	//for "-a 1"
 	public int getNumCourseInNthSemester(int semester) {

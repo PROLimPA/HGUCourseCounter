@@ -30,6 +30,14 @@ public class HGUCoursePatternAnalyzer {
 	
 	public void run(String[] args) {
 		
+
+		Options options = createOptions();
+		if(parseOptions(options, args)){
+			if (help){
+				printHelp(options);
+				return;
+			} 
+			
 		try {
 			// when there are not enough arguments from CLI, it throws the NotEnoughArgmentException which must be defined by you.
 			if(args.length<2)
@@ -39,12 +47,6 @@ public class HGUCoursePatternAnalyzer {
 			System.exit(0);
 		}
 		
-		Options options = createOptions();
-		if(parseOptions(options, args)){
-			if (help){
-				printHelp(options);
-				return;
-			}
 
 			ArrayList<String> lines = Utils.getLines(dataPath, true);
 			

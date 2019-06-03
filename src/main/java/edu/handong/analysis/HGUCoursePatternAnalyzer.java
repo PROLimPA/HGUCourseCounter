@@ -121,7 +121,6 @@ public class HGUCoursePatternAnalyzer {
 				Integer yearTaken = Integer.parseInt(string.split("-")[0]);
 				Integer semesterTaken = Integer.parseInt(string.split("-")[1]);
 				semester = Integer.toString(studentInfo.getSemestersByYearAndSemester().get(string));
-
 				if(yearTaken >= Integer.parseInt(startYear) && yearTaken <= Integer.parseInt(endYear)) {
 					int numCoursesTaken = 0;
 					for(Course course : studentInfo.getCourse()) {
